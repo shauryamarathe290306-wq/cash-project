@@ -1,42 +1,52 @@
-import requests
+import streamlit as st
 
-print("=" * 55)
-print("        🌍 Currency Exchange Converter 🌍")
-print("=" * 55)
+# -----------------------------
+# Page Configuration
+# -----------------------------
+st.set_page_config(
+    page_title="CurrencyVerse",
+    page_icon="🌍",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-try:
-    from_currency = input("Enter source currency (Example: USD): ").upper().strip()
-    to_currency = input("Enter target currency (Example: INR): ").upper().strip()
-    amount = float(input("Enter amount: "))
+# -----------------------------
+# Load Custom CSS
+# -----------------------------
+def load_css():
+    with open("assets/css/style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-    url = f"https://open.er-api.com/v6/latest/{from_currency}"
+load_css()
 
-    response = requests.get(url)
-    data = response.json()
+# -----------------------------
+# Hero Section
+# -----------------------------
+st.markdown(
+    """
+    <h1 class="hero-title">🌍 CurrencyVerse</h1>
+    <p class="hero-subtitle">
+        Explore the world through currencies, culture and countries.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
 
-    if data["result"] != "success":
-        print("\n❌ Invalid source currency code.")
-    elif to_currency not in data["rates"]:
-        print("\n❌ Invalid target currency code.")
-    else:
-        exchange_rate = data["rates"][to_currency]
-        converted_amount = amount * exchange_rate
-
-        print("\n" + "=" * 55)
-        print("              Conversion Result")
-        print("=" * 55)
-        print(f"From Currency : {from_currency}")
-        print(f"To Currency   : {to_currency}")
-        print(f"Amount        : {amount:.2f}")
-        print(f"Exchange Rate : 1 {from_currency} = {exchange_rate:.4f} {to_currency}")
-        print(f"Converted     : {converted_amount:.2f} {to_currency}")
-        print("=" * 55)
-
-except ValueError:
-    print("\n❌ Please enter a valid numeric amount.")
-
-except requests.exceptions.ConnectionError:
-    print("\n❌ No internet connection.")
-
-except Exception as e:
-    print(f"\n❌ Something went wrong: {e}")
+# -----------------------------
+# Welcome Card
+# -----------------------------
+st.markdown(
+    """
+    <div class="glass-card">
+        <h2>💱 Live Currency Converter</h2>
+        <p>
+            Welcome to <b>CurrencyVerse</b>.
+            This application will help you convert currencies in real time while
+            exploring countries, weather, food, famous personalities, tourist
+            attractions and much more.
+        </p>
+        <p><b>🚀 Live converter coming in the next step.</b></p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
